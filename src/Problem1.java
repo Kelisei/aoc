@@ -53,7 +53,7 @@ public class Problem1 {
     }
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();
-        String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputPROBLEM1.txt").toString();
+        String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputProblem1.txt").toString();
         BufferedReader reader = new BufferedReader(new FileReader(absPath));
         String line;
         Holder h = new Holder();

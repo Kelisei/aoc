@@ -64,7 +64,7 @@ public class Problem1_pt2 {
         return line;
     }
     public static void main(String[] args) throws IOException {
-        String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputPROBLEM1_PT2.txt").toString();
+        String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputProblem1.txt").toString();
         BufferedReader reader = new BufferedReader(new FileReader(absPath));
         String line;
         Holder h = new Holder();
