@@ -50,22 +50,15 @@ public class Problem1_pt2 {
     }
     private static String replaceSpelledOutNumbers(String line){
         //didn't find solution where you didn't hardcode this :C
-        line = line.replace("oneight", "18");
-        line = line.replace("twone", "21");
-        line = line.replace("fiveight", "58");
-        line = line.replace("sevenine", "79");
-        line = line.replace("eightwo", "82");
-        line = line.replace("eighthree", "83");
-        line = line.replace("nineight", "98");
-        line = line.replace("one", "1");
-        line = line.replace("two", "2");
-        line = line.replace("three", "3");
-        line = line.replace("four", "4");
-        line = line.replace("five", "5");
-        line = line.replace("six", "6");
-        line = line.replace("seven", "7");
-        line = line.replace("eight", "8");
-        line = line.replace("nine", "9");
+        line = line.replace("one", "o1e");
+        line = line.replace("two", "t2o");
+        line = line.replace("three", "t3e");
+        line = line.replace("four", "f4r");
+        line = line.replace("five", "f5e");
+        line = line.replace("six", "s6x");
+        line = line.replace("seven", "s7n");
+        line = line.replace("eight", "e8t");
+        line = line.replace("nine", "n9e");
         return line;
     }
     public static void main(String[] args) throws IOException {
