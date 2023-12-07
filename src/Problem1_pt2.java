@@ -23,7 +23,6 @@ public class Problem1_pt2 {
         treb7uchet
     En este ejemplo, los valores de calibración de estas cuatro líneas son 12, 38, 15 y 77.
     Sumar estos valores produce 142.
-    Considera todo tu documento de calibración. ¿Cuál es la suma de todos los valores de calibración?
  */
     private static class Holder{
         private char number1;
