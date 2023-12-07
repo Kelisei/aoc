@@ -41,7 +41,9 @@ public class Problem1_pt2 {
             }
         }
         public int returnSum() {
-            return Integer.parseInt(String.valueOf(number1) + number2);
+            int numericValueOfChar1 = Character.getNumericValue(number1);
+            int numericValueOfChar2 = Character.getNumericValue(number2);
+            return numericValueOfChar1 * 10 + numericValueOfChar2;
         }
         public void reset(){
             this.number1 = 0;

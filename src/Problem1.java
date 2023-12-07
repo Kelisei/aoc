@@ -42,7 +42,9 @@ public class Problem1 {
             }
         }
         public int returnSum() {
-            return Integer.parseInt(String.valueOf(number1) + number2);
+            int numericValueOfChar1 = Character.getNumericValue(number1);
+            int numericValueOfChar2 = Character.getNumericValue(number2);
+            return numericValueOfChar1 * 10 + numericValueOfChar2;
         }
         public void reset(){
             this.number1 = 0;
@@ -50,6 +52,7 @@ public class Problem1 {
         }
     }
     public static void main(String[] args) throws IOException {
+        long startTime = System.currentTimeMillis();
         String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputPROBLEM1.txt").toString();
         BufferedReader reader = new BufferedReader(new FileReader(absPath));
         String line;
@@ -64,5 +67,11 @@ public class Problem1 {
         }
         reader.close();
         System.out.println(sum); //-> Prints 53921
+
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+
+        System.out.println("Execution time: " + duration + " milliseconds");
     }
 }
