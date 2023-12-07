@@ -42,12 +42,7 @@ public class Problem1 {
             }
         }
         public int returnSum() {
-            if (Character.isDigit(number1) && Character.isDigit(number2)) {
-                return Integer.parseInt(String.valueOf(number1) + number2);
-            } else {
-                System.err.println("Invalid characters for sum calculation");
-                return 0; // Or handle the error in a way that makes sense for your application
-            }
+            return Integer.parseInt(String.valueOf(number1) + number2);
         }
         public void reset(){
             this.number1 = 0;
