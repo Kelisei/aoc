@@ -1,10 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 
-public class Problem1 {
+public class Problem1_pt2 {
     /*
     Intentas preguntar por qué no pueden simplemente usar una máquina del tiempo ("no lo suficientemente potente") y
     hacia dónde te están enviando incluso ("al cielo") y por qué tu mapa parece en su mayoría en blanco ("seguro
@@ -49,23 +48,20 @@ public class Problem1 {
                 return 0; // Or handle the error in a way that makes sense for your application
             }
         }
-        public void reset(){
-            this.number1 = 0;
-            this.number2 = 0;
-        }
     }
     public static void main(String[] args) throws IOException {
-        String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputPROBLEM1.txt").toString();
+        String absPath = System.getProperty("user.dir") + "\\src\\inputPROBLEM1.txt";
+        System.out.println(absPath);
         BufferedReader reader = new BufferedReader(new FileReader(absPath));
         String line;
-        Holder h = new Holder();
+        Holder h = null;
         int sum = 0;
         while ((line = reader.readLine()) != null) {
+            h = new Holder();
             for (char c : line.toCharArray()) {
                 h.addNumber(c);
             }
             sum += h.returnSum();
-            h.reset();
         }
         reader.close();
         System.out.println(sum); //-> Prints 53921
