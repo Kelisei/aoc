@@ -66,6 +66,7 @@ public class Problem2 {
                 idSum += id;
             }
         }
+        reader.close();
         System.out.println(idSum); // -> Prints 1867
     }
 }

@@ -41,13 +41,6 @@ public class Problem2_pt2 {
             return maxBlue * maxGreen * maxRed;
         }
     }
-
-    private static int getId(String line) {  //NOT necessary since the games go from 1 to 100
-        int indexOfEmpty = line.indexOf(' ') + 1;
-        int indexOfColon = line.indexOf(':', indexOfEmpty);
-        return Integer.parseInt(line.substring(indexOfEmpty, indexOfColon));
-    }
-
     public static void main(String[] args) throws IOException {
         String absPath = Paths.get(System.getProperty("user.dir"), "src", "inputProblem2.txt").toString();
         BufferedReader reader = new BufferedReader(new FileReader(absPath));
@@ -62,6 +55,7 @@ public class Problem2_pt2 {
             power += set.getPower();
             set.reset();
         }
+        reader.close();
         System.out.println(power); // -> Prints 84538
     }
 }
