@@ -1,0 +1,2 @@
+cabal run
+cabal build
