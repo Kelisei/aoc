@@ -13,21 +13,16 @@ const isSafeV1 = (line) => {
 
         const next = line[i + 1];
 
-        console.log(prev, next);
         if (!safeIncrement(prev, next)) {
-            console.log("line " + line + " is not safe");
             return false;
         }
 
         if (decreasing === null) {
             decreasing = next < prev;
         } else if (decreasing !== (next < prev)) {
-            console.log("line " + line + " is not safe");
             return false;
         }
     }
-    console.log("line " + line + " is safe");
-
     return true;
 };
 
@@ -40,32 +35,17 @@ const first = () => {
         .filter(isSafeV1);
     return lines.length;
 }
-/*
-/* TODO
-*/
-const isSafeV2 = (line) => {
-    let decreasing = null;
-    for (let i = 0; i < line.length - 1; i++) {
-        const prev = line[i];
 
-        const next = line[i + 1];
-
-        console.log(prev, next);
-        if (!safeIncrement(prev, next)) {
-            console.log("line " + line + " is not safe");
-            return false;
-        }
-
-        if (decreasing === null) {
-            decreasing = next < prev;
-        } else if (decreasing !== (next < prev)) {
-            console.log("line " + line + " is not safe");
-            return false;
+const safeWithOne = (line) => {
+    if (isSafeV1(line)){
+        return true;
+    }
+    for (const [index, element] of line.entries()){
+        if(isSafeV1(line.slice(0, index).concat(line.slice(index + 1)))){
+            return true;
         }
     }
-    console.log("line " + line + " is safe");
-
-    return true;
+    return false;
 };
 
 const second = () => {
@@ -73,7 +53,7 @@ const second = () => {
         .split("\n")
         .filter((line) => line !== "")
         .map((line) => line.split(" ").map(Number))
-        .filter(isSafeV2);
+        .filter(safeWithOne);
     return lines.length;
 }
 
