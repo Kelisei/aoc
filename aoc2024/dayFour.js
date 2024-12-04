@@ -1,24 +1,7 @@
-import fs from 'fs';
-
-
-const directions = [
-    [0, 1],    // up
-    [0, -1],   // down
-    [-1, 0],   // left
-    [1, 0],    // right
-    [-1, -1],  // up-left
-    [1, 1],    // down-right
-    [-1, 1],   // up-right
-    [1, -1]    // down-left
-];
-
-function isInBounds(i, j, xOffset, yOffset, lines) {
-    return 0 <= i + xOffset && i + xOffset < lines.length &&
-        0 <= j + yOffset && j + yOffset < lines[0].length;
-}
+import {isInBounds, getInputAsLines, directions} from './utils.js';
 
 function first() {
-    const lines = fs.readFileSync("inputs/input4.txt", "utf-8").split("\n");
+    const lines = getInputAsLines("inputs", "input4.txt");
     let count = 0;
     for (let [i, line] of lines.entries()) {
         for (let [j, char] of line.split("").entries()) {
@@ -38,7 +21,7 @@ function first() {
 
 function second() {
     const validValues = ["MSMS", "MSSM", "SMMS", "SMSM"];
-    const lines = fs.readFileSync("inputs/input4.txt", "utf-8").split("\n");
+    const lines = getInputAsLines("inputs", "input4.txt");
     let count = 0;
     for (let i = 1; i < lines.length - 1; i++) {
         const line = lines[i];

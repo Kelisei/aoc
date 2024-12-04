@@ -1,7 +1,8 @@
-import fs from 'fs'
+import { getInputWhole } from './utils.js';
+
 const first = () => {
     const regex = /mul\((\d+)+,(\d+)+\)/g;
-    const res = [...fs.readFileSync('inputs/input3.txt', 'utf-8').matchAll(regex)]
+    const res = [...getInputWhole("inputs", "input3.txt").matchAll(regex)]
     .map(
         (elem) => [...elem[0].matchAll(/(\d+)+/g)]
         .map(match => Number(match[0]))
@@ -16,7 +17,7 @@ const second = () => {
     let enabled = true;
     let res = 0;
 
-    fs.readFileSync('inputs/input3.txt', 'utf-8').match(regex).forEach((instr) => {
+    getInputWhole("inputs", "input3.txt").match(regex).forEach((instr) => {
         if (instr === "do()") {
             enabled = true;
         } else if (instr === "don't()") {

@@ -1,10 +1,10 @@
-import fs from 'fs';
 import path from 'path';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
+import { getInputAsLines } from './utils.js';
+
 const first = () => {
-    let [listOne, listTwo] = fs.readFileSync(path.join(__dirname, 'inputs', 'input1.txt'), 'utf8')
-        .split('\n')
+    let [listOne, listTwo] = getInputAsLines("inputs", "input1.txt")
         .map(line => line.split(" ").filter(num => num !== "").map(Number))
         .reduce(([one, two], [num1, num2]) => {
             !isNaN(num1) ? one.push(num1) : null;
@@ -21,8 +21,7 @@ const first = () => {
 }
 
 const second = () => {
-    let [listOne, listTwo] = fs.readFileSync(path.join(__dirname, 'inputs', 'input1.txt'), 'utf8')
-        .split('\n')
+    let [listOne, listTwo] = getInputAsLines("inputs", "input1.txt")
         .map(line => line.split(" ").filter(num => num !== "").map(Number))
         .reduce(([one, two], [num1, num2]) => {
             !isNaN(num1) ? one.push(num1) : null;

@@ -1,5 +1,4 @@
-import fs from 'fs';
-
+import { getInputAsLines } from './utils.js';
 
 const safeIncrement = (prev, next) => {
     const diff = Math.abs(prev - next);
@@ -28,8 +27,7 @@ const isSafeV1 = (line) => {
 
 
 const first = () => {
-    const lines = fs.readFileSync("inputs/input2.txt", "utf-8")
-        .split("\n")
+    const lines = getInputAsLines("inputs", "input2.txt")
         .filter((line) => line !== "")
         .map((line) => line.split(" ").map(Number))
         .filter(isSafeV1);
@@ -49,8 +47,7 @@ const safeWithOne = (line) => {
 };
 
 const second = () => {
-    const lines = fs.readFileSync("inputs/input2.txt", "utf-8")
-        .split("\n")
+    const lines = getInputAsLines("inputs", "input2.txt")
         .filter((line) => line !== "")
         .map((line) => line.split(" ").map(Number))
         .filter(safeWithOne);
