@@ -1,20 +1,11 @@
-import {isInBounds, getInputAsLines, directions} from './utils.js';
+import { getInputAsLines, findWordOccurrencesInGrid } from './utils.js';
 
 function first() {
     const lines = getInputAsLines("inputs", "input4.txt");
     let count = 0;
-    for (let [i, line] of lines.entries()) {
-        for (let [j, char] of line.split("").entries()) {
-            if (char === "X") {
-                for (let [xOffset, yOffset] of directions) {
-                    if (isInBounds(i, j, 3 * xOffset, 3 * yOffset, lines)) {
-                        if (lines[i + xOffset][j + yOffset] == "M" && lines[i + 2 * xOffset][j + 2 * yOffset] == "A" && lines[i + 3 * xOffset][j + 3 * yOffset] == "S") {
-                            count++;
-                        }
-                    }
-                }
-            }
-        }
+    for (let i = 0; i < Math.pow(lines.length, 2); i++) {
+        // I've abstracted the behaviour away in this function for future use.
+        count += findWordOccurrencesInGrid("XMAS", lines, Math.trunc(i / lines.length), i % lines.length, "*");
     }
     return count;
 }
