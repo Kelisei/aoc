@@ -107,6 +107,30 @@ export function findWordOccurrencesInGrid(word, grid, x, y, pattern = "*") {
     return count;
 }
 
+
+export function logInBox(title, ...texts) {
+    const { columns } = process.stdout;
+
+    let line = "┏";
+    const padding = Math.floor((columns - title.length - 4) / 2);
+    const extra = (columns - title.length - 4) % 2;
+    line += "━".repeat(padding) + " " + title + " " + "━".repeat(padding + extra) + "┓";
+    console.log(line);
+
+    for (let text of texts) {
+        text = String(text);
+        line = "┃";
+        const textPadding = Math.floor((columns - text.length - 2) / 2);
+        const textExtra = (columns - text.length - 2) % 2;
+        line += " ".repeat(textPadding) + text + " ".repeat(textPadding + textExtra) + "┃";
+        console.log(line);
+    }
+
+    line = "┗" + "━".repeat(columns - 2) + "┛";
+    console.log(line);
+}
+
+
 /**
  * Checks if the given position (i + xOffset, j + yOffset) is within the bounds
  * of a 2D grid represented by `lines`.
