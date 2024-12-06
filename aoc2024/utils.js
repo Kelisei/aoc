@@ -108,6 +108,10 @@ export function findWordOccurrencesInGrid(word, grid, x, y, pattern = "*") {
 }
 
 
+export function extractNumbersFromString(str){
+    return str.match(/\d+/g).map(Number);
+}
+
 export function logInBox(title, ...texts) {
     const { columns } = process.stdout;
 
