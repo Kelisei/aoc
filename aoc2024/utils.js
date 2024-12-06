@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 /**
@@ -8,7 +8,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
  * @returns {string[]} An array of lines from the file.
  */
 export function getInputAsLines(...args) {
-    return fs.readFileSync(path.join(__dirname, ...args), 'utf8').split("\n");
+  return fs.readFileSync(path.join(__dirname, ...args), "utf8").split("\n");
 }
 
 /**
@@ -17,7 +17,7 @@ export function getInputAsLines(...args) {
  * @returns {Buffer} The raw content of the file.
  */
 export function getInputRaw(...args) {
-    return fs.readFileSync(path.join(__dirname, ...args));
+  return fs.readFileSync(path.join(__dirname, ...args));
 }
 
 /**
@@ -26,33 +26,32 @@ export function getInputRaw(...args) {
  * @returns {string} The entire content of the file.
  */
 export function getInputWhole(...args) {
-    return fs.readFileSync(path.join(__dirname, ...args), 'utf-8');
+  return fs.readFileSync(path.join(__dirname, ...args), "utf-8");
 }
 
-
 export const directions = {
-    "*": [
-        [0, 1],    // up
-        [0, -1],   // down
-        [-1, 0],   // left
-        [1, 0],    // right
-        [-1, -1],  // up-left
-        [1, 1],    // down-right
-        [-1, 1],   // up-right
-        [1, -1]    // down-left
-    ],
-    "+": [
-        [0, 1],    // up
-        [0, -1],   // down
-        [-1, 0],   // left
-        [1, 0],    // right
-    ],
-    "x": [
-        [-1, -1],  // up-left
-        [1, 1],    // down-right
-        [-1, 1],   // up-right
-        [1, -1]    // down-left
-    ]
+  "*": [
+    [0, 1], // up
+    [0, -1], // down
+    [-1, 0], // left
+    [1, 0], // right
+    [-1, -1], // up-left
+    [1, 1], // down-right
+    [-1, 1], // up-right
+    [1, -1], // down-left
+  ],
+  "+": [
+    [0, 1], // up
+    [0, -1], // down
+    [-1, 0], // left
+    [1, 0], // right
+  ],
+  x: [
+    [-1, -1], // up-left
+    [1, 1], // down-right
+    [-1, 1], // up-right
+    [1, -1], // down-left
+  ],
 };
 
 /**
@@ -81,59 +80,66 @@ export const directions = {
  * console.log(count); // Output: 1
  */
 export function findWordOccurrencesInGrid(word, grid, x, y, pattern = "*") {
-    let searchPattern;
-    try {
-        searchPattern = directions[pattern];
-    } catch (e) {
-        console.log("The patterns for the search are *, +, x");
-        throw e;
-    }
-    const safeCheckRange = word.length - 1;
-    let count = 0;
-    for (let [xOffset, yOffset] of searchPattern) {
-        if (isInBounds(x, y, safeCheckRange * xOffset, safeCheckRange * yOffset, grid)) {
-            let found = true;
-            for (const [i, char] of word.split("").entries()) {
-                if (grid[x + xOffset * i][y + yOffset * i] !== char) {
-                    found = false;
-                    break;
-                }
-            }
-            if (found) {
-                count++;
-            }
+  let searchPattern;
+  try {
+    searchPattern = directions[pattern];
+  } catch (e) {
+    console.log("The patterns for the search are *, +, x");
+    throw e;
+  }
+  const safeCheckRange = word.length - 1;
+  let count = 0;
+  for (let [xOffset, yOffset] of searchPattern) {
+    if (
+      isInBounds(x, y, safeCheckRange * xOffset, safeCheckRange * yOffset, grid)
+    ) {
+      let found = true;
+      for (const [i, char] of word.split("").entries()) {
+        if (grid[x + xOffset * i][y + yOffset * i] !== char) {
+          found = false;
+          break;
         }
+      }
+      if (found) {
+        count++;
+      }
     }
-    return count;
+  }
+  return count;
 }
 
-
-export function extractNumbersFromString(str){
-    return str.match(/\d+/g).map(Number);
+export function extractNumbersFromString(str) {
+  return str.match(/\d+/g).map(Number);
 }
 
 export function logInBox(title, ...texts) {
-    const { columns } = process.stdout;
+  const { columns } = process.stdout;
+  if (columns === 0) {
+    columns = title.length;
+  }
+  let line = "┏";
+  const padding = Math.floor((columns - title.length - 4) / 2);
+  const extra = (columns - title.length - 4) % 2;
+  line +=
+    "━".repeat(padding) + " " + title + " " + "━".repeat(padding + extra) + "┓";
+  console.log(line);
 
-    let line = "┏";
-    const padding = Math.floor((columns - title.length - 4) / 2);
-    const extra = (columns - title.length - 4) % 2;
-    line += "━".repeat(padding) + " " + title + " " + "━".repeat(padding + extra) + "┓";
+  for (let text of texts) {
+    text = String(text);
+    line = "┃";
+    const textPadding = Math.floor((columns - text.length - 2) / 2);
+    const textExtra = (columns - text.length - 2) % 2;
+    line +=
+      " ".repeat(textPadding) +
+      text +
+      " ".repeat(textPadding + textExtra) +
+      "┃";
     console.log(line);
+  }
 
-    for (let text of texts) {
-        text = String(text);
-        line = "┃";
-        const textPadding = Math.floor((columns - text.length - 2) / 2);
-        const textExtra = (columns - text.length - 2) % 2;
-        line += " ".repeat(textPadding) + text + " ".repeat(textPadding + textExtra) + "┃";
-        console.log(line);
-    }
-
-    line = "┗" + "━".repeat(columns - 2) + "┛";
-    console.log(line);
+  line = "┗" + "━".repeat(columns - 2) + "┛";
+  console.log(line);
 }
-
 
 /**
  * Checks if the given position (i + xOffset, j + yOffset) is within the bounds
@@ -147,8 +153,19 @@ export function logInBox(title, ...texts) {
  * @returns {boolean} - Returns `true` if the new position is within the grid's bounds, `false` otherwise.
  */
 export function isInBounds(x, y, xOffset, yOffset, grid) {
-    return 0 <= x + xOffset && x + xOffset < grid.length &&
-        0 <= y + yOffset && y + yOffset < grid[0].length;
+  return (
+    0 <= x + xOffset &&
+    x + xOffset < grid.length &&
+    0 <= y + yOffset &&
+    y + yOffset < grid[0].length
+  );
 }
 
-export default { getInputAsLines, getInputRaw, getInputWhole, directions, isInBounds, findWordOccurrencesInGrid }
+export default {
+  getInputAsLines,
+  getInputRaw,
+  getInputWhole,
+  directions,
+  isInBounds,
+  findWordOccurrencesInGrid,
+};

@@ -1,19 +1,17 @@
 import { getInputAsLines, extractNumbersFromString } from "./utils.js";
 
-
-
-
-// Loopi boy 
+// Loopi boy
 export function first() {
-  const lines = getInputAsLines("inputs", "input5.txt");
-  const emptyLineIndex = lines.findIndex(line => line === "");
-  const order = lines.slice(0, emptyLineIndex)
-    .map(line => {
-      const [_, x, y] = line.match(/(\d+)\|(\d+)/);
-      return { shouldComeBefore: Number(x), shouldComeAfter: Number(y) };
-    });
+  const lines = getInputAsLines("inputs", "input5.txt").slice(0, -1);
+  const emptyLineIndex = lines.findIndex((line) => line === "");
+  const order = lines.slice(0, emptyLineIndex).map((line) => {
+    const [_, x, y] = line.match(/(\d+)\|(\d+)/);
+    return { shouldComeBefore: Number(x), shouldComeAfter: Number(y) };
+  });
 
-  const updates = lines.slice(emptyLineIndex + 1, -1).map(extractNumbersFromString);
+  const updates = lines
+    .slice(emptyLineIndex + 1, -1)
+    .map(extractNumbersFromString);
   let sum = 0;
 
   for (const update of updates) {
@@ -26,14 +24,15 @@ export function first() {
 
 export function second() {
   const lines = getInputAsLines("inputs", "input5.txt");
-  const emptyLineIndex = lines.findIndex(line => line === "");
-  const order = lines.slice(0, emptyLineIndex)
-    .map(line => {
-      const [_, x, y] = line.match(/(\d+)\|(\d+)/);
-      return { shouldComeBefore: Number(x), shouldComeAfter: Number(y) };
-    });
+  const emptyLineIndex = lines.findIndex((line) => line === "");
+  const order = lines.slice(0, emptyLineIndex).map((line) => {
+    const [_, x, y] = line.match(/(\d+)\|(\d+)/);
+    return { shouldComeBefore: Number(x), shouldComeAfter: Number(y) };
+  });
 
-  const updates = lines.slice(emptyLineIndex + 1, -1).map(extractNumbersFromString);
+  const updates = lines
+    .slice(emptyLineIndex + 1, -1)
+    .map(extractNumbersFromString);
   let sum = 0;
 
   for (const update of updates) {
@@ -51,7 +50,11 @@ function isUpdateValid(update, order) {
     const current = update[i];
     for (const { shouldComeBefore, shouldComeAfter } of order) {
       const indexOfCheck = update.indexOf(shouldComeAfter);
-      if (shouldComeBefore === current && indexOfCheck !== -1 && indexOfCheck < i) {
+      if (
+        shouldComeBefore === current &&
+        indexOfCheck !== -1 &&
+        indexOfCheck < i
+      ) {
         return false;
       }
     }
@@ -72,6 +75,4 @@ function orderUpdate(update, order) {
   });
 }
 
-
-
-export default { first, second};
+export default { first, second };
