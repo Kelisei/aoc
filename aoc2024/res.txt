@@ -1,9 +1,0 @@
-┏ Guard starting pos ┓
-┃{"col":81,"row":82,"direction":0}┃
-┗┛
-┏ Count of distinct places the guard has been ┓
-┃4711┃
-┗┛
-┏ Positions of the guard ┓
-┃{"col":81,"row":129,"direction":2}┃
-┗┛
