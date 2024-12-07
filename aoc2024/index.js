@@ -16,4 +16,4 @@ logInBox("Day Four", dayFour.first(), dayFour.second());
 console.log("\n");
 logInBox("Day Five", dayFive.first(), dayFive.second());
 console.log("\n");
-logInBox("Day Six", daySix.first(), daySix.second());
+logInBox("Day Six", daySix.first(), await daySix.second());

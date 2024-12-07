@@ -3,49 +3,49 @@ import { getInputAsLines, isInBounds } from "./utils.js";
 
 // Took me hours to even get why the second challenge wasn't working properly, now I stand unkown since i just rewrote it till it worked.
 // In the end, i've learn that maybe I should try to make things more modular, maybe try the easier approach first and
-// then optimize.
+// then optimize
 
 const directions = [
- { dx: 0, dy: -1 },
- { dx: 1, dy: 0 },
- { dx: 0, dy: 1 },
- { dx: -1, dy: 0 }
+  { dx: 0, dy: -1 },
+  { dx: 1, dy: 0 },
+  { dx: 0, dy: 1 },
+  { dx: -1, dy: 0 }
 ];
 
 function findGuardStartPosition(grid) {
- for (let row = 0; row < grid.length; row++) {
-   const col = grid[row].indexOf('^');
-   if (col !== -1) {
-     return { col, row, direction: 0 };
-   }
- }
- throw new Error("Guard start position not found");
+  for (let row = 0; row < grid.length; row++) {
+    const col = grid[row].indexOf('^');
+    if (col !== -1) {
+      return { col, row, direction: 0 };
+    }
+  }
+  throw new Error("Guard start position not found");
 }
 
 export function first() {
- const grid = getInputAsLines("inputs", "input6.txt").slice(0, -1);
- const guard = findGuardStartPosition(grid);
- const visitedPositions = new Set();
+  const grid = getInputAsLines("inputs", "input6.txt").slice(0, -1);
+  const guard = findGuardStartPosition(grid);
+  const visitedPositions = new Set();
 
- while (true) {
-   visitedPositions.add(`${guard.col},${guard.row}`);
-   const { dx, dy } = directions[guard.direction];
-   const newX = guard.col + dx;
-   const newY = guard.row + dy;
+  while (true) {
+    visitedPositions.add(`${guard.col},${guard.row}`);
+    const { dx, dy } = directions[guard.direction];
+    const newX = guard.col + dx;
+    const newY = guard.row + dy;
 
-   if (!isInBounds(guard.col, guard.row, dx, dy, grid)) {
-     break;
-   }
+    if (!isInBounds(guard.col, guard.row, dx, dy, grid)) {
+      break;
+    }
 
-   if (grid[newY][newX] === "#") {
-     guard.direction = (guard.direction + 1) % directions.length;
-   } else {
-     guard.col = newX;
-     guard.row = newY;
-   }
- }
+    if (grid[newY][newX] === "#") {
+      guard.direction = (guard.direction + 1) % directions.length;
+    } else {
+      guard.col = newX;
+      guard.row = newY;
+    }
+  }
 
- return visitedPositions.size;
+  return visitedPositions.size;
 }
 
 function simulateGuardPath(grid) {
@@ -89,66 +89,68 @@ function simulateGuardPath(grid) {
 }
 
 function findGuardPath(grid) {
- const pathPositions = new Set();
- let guard = { col: -1, row: -1, direction: 0 };
+  const pathPositions = new Set();
+  let guard = { col: -1, row: -1, direction: 0 };
 
- grid.some((line, i) => {
-   const x = line.indexOf("^");
-   if (x !== -1) {
-     guard.col = x;
-     guard.row = i;
-     return true;
-   }
-   return false;
- });
+  grid.some((line, i) => {
+    const x = line.indexOf("^");
+    if (x !== -1) {
+      guard.col = x;
+      guard.row = i;
+      return true;
+    }
+    return false;
+  });
 
- let reachedEnd = false;
- pathPositions.add(`${guard.col},${guard.row}`);
+  let reachedEnd = false;
+  pathPositions.add(`${guard.col},${guard.row}`);
 
- while (!reachedEnd) {
-   const { dx, dy } = directions[guard.direction];
-   const newX = guard.col + dx;
-   const newY = guard.row + dy;
+  while (!reachedEnd) {
+    const { dx, dy } = directions[guard.direction];
+    const newX = guard.col + dx;
+    const newY = guard.row + dy;
 
-   if (isInBounds(guard.col, guard.row, dx, dy, grid)) {
-     if (grid[newY][newX] === "#") {
-       guard.direction = (guard.direction + 1) % directions.length;
-     } else {
-       guard.col = newX;
-       guard.row = newY;
-       pathPositions.add(`${guard.col},${guard.row}`);
-     }
-   } else {
-     reachedEnd = true;
-   }
- }
+    if (isInBounds(guard.col, guard.row, dx, dy, grid)) {
+      if (grid[newY][newX] === "#") {
+        guard.direction = (guard.direction + 1) % directions.length;
+      } else {
+        guard.col = newX;
+        guard.row = newY;
+        pathPositions.add(`${guard.col},${guard.row}`);
+      }
+    } else {
+      reachedEnd = true;
+    }
+  }
 
- return pathPositions;
+  return pathPositions;
 }
 
-export function second() {
- const originalGrid = getInputAsLines("inputs", "input6.txt").slice(0, -1).map(line => line.split(""));
- let loopPositions = 0;
+export async function second() {
+  const originalGrid = getInputAsLines("inputs", "input6.txt").slice(0, -1).map(line => line.split(""));
 
- const startRow = originalGrid.findIndex(row => row.includes('^'));
- const startCol = originalGrid[startRow].indexOf('^');
+  const startRow = originalGrid.findIndex(row => row.includes('^'));
+  const startCol = originalGrid[startRow].indexOf('^');
 
- const guardPath = findGuardPath(originalGrid);
+  const guardPath = findGuardPath(originalGrid);
+  const promises = [];
+  for (const pos of guardPath) {
+    const [col, row] = pos.split(',').map(Number);
 
- for (const pos of guardPath) {
-   const [col, row] = pos.split(',').map(Number);
+    if (row === startRow && col === startCol) continue;
 
-   if (row === startRow && col === startCol) continue;
+    const testGrid = originalGrid.map(row => [...row]);
+    testGrid[row][col] = '#';
 
-   const testGrid = originalGrid.map(row => [...row]);
-   testGrid[row][col] = '#';
-
-   if (simulateGuardPath(testGrid)) {
-     loopPositions++;
-   }
- }
-
- return loopPositions;
+    promises.push(
+      new Promise((resolve) => {
+        const result = simulateGuardPath(testGrid);
+        resolve(result);
+      })
+    );
+  }
+  const results = await Promise.all(promises);
+  return results.filter(result => result).length;
 }
 
 export default { first, second };
