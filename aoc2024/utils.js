@@ -160,6 +160,74 @@ export function isInBounds(x, y, xOffset, yOffset, grid) {
     y + yOffset < grid[0].length
   );
 }
+export function isNotEmptyString(value) {
+  return value !== '';
+}
+
+/**
+ * Generates all possible combinations of the specified length from the provided elements.
+ * This function uses a generator to yield each combination as an array.
+ * 
+ * @generator
+ * @param {number} strLen - The length of each combination to generate.
+ * @param {...any} elems - The elements to include in the combinations.
+ * @yields {Array<any>} - An array representing one combination of the elements.
+ *
+ * @example
+ * const combinations = generateCombinations(2, 'a', 'b');
+ * for (const combo of combinations) {
+ *   console.log(combo);
+ * }
+ * // Output:
+ * // ['a', 'a']
+ * // ['b', 'a']
+ * // ['a', 'b']
+ * // ['b', 'b']
+ */
+export function* generateCombinations(strLen, ...elems) {
+  for (let i = 0; i < Math.pow(elems.length, strLen); i++) {
+    let currentCombination = [];
+    let temp = i;
+    for (let j = 0; j < strLen; j++) {
+      currentCombination.push(elems[temp % elems.length]);
+      temp = Math.floor(temp / elems.length);
+    }
+    yield currentCombination;
+  }
+}
+
+/**
+ * Generates all possible binary combinations of the specified length using two operators.
+ * This function uses a generator to yield each combination as an array.
+ * 
+ * @generator
+ * @param {number} strLen - The length of each binary combination to generate.
+ * @param {any} op1 - The first operator to use in the combinations (default value when a bit is unset).
+ * @param {any} op2 - The second operator to use in the combinations (value when a bit is set).
+ * @yields {Array<any>} - An array representing one binary combination of the operators.
+ *
+ * @example
+ * const binaryCombinations = generateBinaryCombinations(3, 0, 1);
+ * for (const combo of binaryCombinations) {
+ *   console.log(combo);
+ * }
+ * // Output:
+ * // [0, 0, 0]
+ * // [1, 0, 0]
+ * // [0, 1, 0]
+ * // [1, 1, 0]
+ * // [0, 0, 1]
+ * // [1, 0, 1]
+ * // [0, 1, 1]
+ * // [1, 1, 1]
+ */
+export function* generateBinaryCombinations(strLen, op1, op2) {
+  for (let i = 0; i < Math.pow(2, strLen); i++) {
+    yield Array(strLen).fill(op1).map((_, index) =>
+      (i & (1 << index)) ? op2 : op1
+    );
+  }
+}
 
 export default {
   getInputAsLines,
@@ -168,4 +236,7 @@ export default {
   directions,
   isInBounds,
   findWordOccurrencesInGrid,
+  isEmptyString: isNotEmptyString,
+  extractNumbersFromString,
+  generateCombinations
 };
