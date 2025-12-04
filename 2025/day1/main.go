@@ -20,20 +20,45 @@ func main() {
 		if strings.HasPrefix(line, "L") {
 			strAmount := strings.Replace(line, "L", "", 1)
 			amount, _ := strconv.Atoi(strAmount)
-			fmt.Println(amount)
-			dial = (dial - amount) % 100
-			if dial == 0 {
-				counter++
+			dial = (dial - amount)
+		} else if strings.HasPrefix(line, "R") {
+			strAmount := strings.Replace(line, "R", "", 1)
+			amount, _ := strconv.Atoi(strAmount)
+			dial = (dial + amount)
+
+		}
+		dial = dial % 100
+		if dial == 0 {
+			counter++
+		}
+	}
+	fmt.Println("Password:", counter)
+
+	dial = 50
+	counter = 0
+	for i := range len(lines) {
+		line := lines[i]
+		if strings.HasPrefix(line, "L") {
+			strAmount := strings.Replace(line, "L", "", 1)
+			amount, _ := strconv.Atoi(strAmount)
+			for range amount {
+				dial = (dial - 1) % 100
+				if dial == 0 {
+					counter++
+				}
+
 			}
 		} else if strings.HasPrefix(line, "R") {
 			strAmount := strings.Replace(line, "R", "", 1)
 			amount, _ := strconv.Atoi(strAmount)
-			fmt.Println(amount)
-			dial = (dial + amount) % 100
-			if dial == 0 {
-				counter++
+			for range amount {
+				dial = (dial + 1) % 100
+				if dial == 0 {
+					counter++
+				}
 			}
 		}
+
 	}
 	fmt.Println("Password:", counter)
 }
