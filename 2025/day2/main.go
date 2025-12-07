@@ -32,4 +32,27 @@ func main() {
 	}
 	fmt.Println(invalidSum)
 
+	invalidSum = 0
+	for i := range len(split) {
+		ids := strings.Split(split[i], "-")
+		start, err1 := strconv.Atoi(strings.TrimSpace(ids[0]))
+		end, err2 := strconv.Atoi(strings.TrimSpace(ids[1]))
+		if err1 != nil || err2 != nil {
+			fmt.Println(err1.Error(), err2.Error())
+			panic(err1)
+		}
+		for j := start; j <= end; j++ {
+			num := strconv.Itoa(j)
+			length := len(num)
+			for k := range length {
+				if k != 0 && length%k == 0 {
+					if strings.Count(num, num[:k]) == length/k {
+						invalidSum += j
+						break
+					}
+				}
+			}
+		}
+	}
+	fmt.Println(invalidSum)
 }
