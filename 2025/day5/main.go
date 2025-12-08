@@ -14,6 +14,8 @@ func main() {
 	pwd, _ := os.Getwd()
 	f, _ := os.Open(filepath.Join(pwd, "input.txt"))
 	scanner := bufio.NewScanner(f)
+	defer f.Close()
+
 	firstPartDone := false
 	type Interval struct {
 		start int
