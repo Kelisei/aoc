@@ -1,2 +1,0 @@
-cabal run
-cabal build

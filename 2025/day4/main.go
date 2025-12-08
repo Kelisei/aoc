@@ -105,7 +105,7 @@ func main() {
 				localChanged := false
 
 				for i := start; i < end; i++ {
-					for j := 0; j < width; j++ {
+					for j := range width {
 						if matrix[i][j] == '@' {
 							atsFound := 0
 							for x := max(0, j-1); x <= min(j+1, width-1); x++ {
