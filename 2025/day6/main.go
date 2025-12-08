@@ -86,7 +86,7 @@ func main() {
 
 	for col := range width {
 		isBlank := true
-		for row := 0; row < height; row++ {
+		for row := range height {
 			if stringList[row][col] != ' ' {
 				isBlank = false
 				break
@@ -102,7 +102,7 @@ func main() {
 		}
 
 		var sb strings.Builder
-		for row := 0; row < height; row++ {
+		for row := range height {
 			ch := stringList[row][col]
 			if ch >= '0' && ch <= '9' {
 				sb.WriteByte(ch)
